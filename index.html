@@ -14,6 +14,15 @@
     <title>Ayuno Intermitente</title>
   </head>
   <body>
+    <div id="pinLockScreen" class="pin-lock-screen" style="display: none;">
+      <div class="pin-container glass-card">
+        <span class="title-icon" style="font-size: 3rem; margin-bottom: 1rem; display: block;">🔒</span>
+        <h2 style="margin-bottom: 1rem;">Seguridad</h2>
+        <p style="margin-bottom: 1.5rem; color: var(--text-secondary);">Ingresa tu PIN de 4 dígitos</p>
+        <input type="password" id="pinInputAuth" class="form-input" maxlength="4" pattern="\d*" inputmode="numeric" placeholder="••••" style="text-align: center; font-size: 2rem; letter-spacing: 0.5rem; width: 140px; margin: 0 auto;">
+        <span id="pinErrorAuth" class="form-error" style="display: none; margin-top: 1rem;">PIN incorrecto</span>
+      </div>
+    </div>
     <div id="app">
       <header class="app-header">
         <div class="header-content">
@@ -79,7 +88,10 @@
                 <div class="widget-content">
                   <span class="widget-value" id="waterCount">0</span>
                   <span class="widget-unit">/ 8 vasos</span>
-                  <button class="widget-btn" id="addWater" aria-label="Agregar vaso de agua">+</button>
+                  <div style="margin-left: auto; display: flex; gap: 8px;">
+                    <button class="widget-btn" id="removeWater" aria-label="Quitar vaso">-</button>
+                    <button class="widget-btn" id="addWater" aria-label="Agregar vaso">+</button>
+                  </div>
                 </div>
               </div>
 
@@ -217,6 +229,10 @@
                   <input type="checkbox" id="toggleFastingEndNotify" checked>
                   <span class="toggle-slider"></span>
                 </label>
+              </div>
+              <div class="setting-row">
+                <span class="setting-label">PIN de Seguridad</span>
+                <button class="btn btn-secondary btn-sm" id="setupPinBtn">Configurar</button>
               </div>
               <div class="setting-row">
                 <span class="setting-label">Protocolo predeterminado</span>

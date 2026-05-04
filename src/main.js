@@ -810,6 +810,7 @@ function bindEvents() {
   const pauseBtn = $('#pauseFasting')
   const stopBtn = $('#stopFasting')
   const addWaterBtn = $('#addWater')
+  const removeWaterBtn = $('#removeWater')
   const protocolSelect = $('#protocolSelect')
   const logWeightBtn = $('#logWeight')
   const logBPBtn = $('#logBP')
@@ -833,8 +834,20 @@ function bindEvents() {
     localStorage.setItem('waterCount', state.waterCount.toString())
   })
 
+  removeWaterBtn?.addEventListener('click', async () => {
+    if (state.waterCount > 0) {
+      state.waterCount--
+      const el = $('#waterCount')
+      if (el) el.textContent = state.waterCount
+      await saveHealthLog('water', { count: state.waterCount })
+      localStorage.setItem('waterCount', state.waterCount.toString())
+    }
+  })
+
   logWeightBtn?.addEventListener('click', showWeightModal)
   logBPBtn?.addEventListener('click', showBPModal)
+
+  $('.settings-btn')?.addEventListener('click', () => navigateTo('profile'))
 
   protocolSelect?.addEventListener('change', async () => {
     state.protocol = protocolSelect.value
@@ -948,6 +961,56 @@ function showModal(title, content) {
 
 function hideModal() {
   if (modal) modal.classList.remove('active')
+}
+
+function initPinLock() {
+  const savedPin = localStorage.getItem('appPin')
+  const lockScreen = $('#pinLockScreen')
+  const pinInputAuth = $('#pinInputAuth')
+  const pinErrorAuth = $('#pinErrorAuth')
+
+  if (savedPin && lockScreen && pinInputAuth) {
+    lockScreen.style.display = 'flex'
+    pinInputAuth.value = ''
+    pinInputAuth.focus()
+
+    pinInputAuth.addEventListener('input', () => {
+      if (pinInputAuth.value.length === 4) {
+        if (pinInputAuth.value === savedPin) {
+          lockScreen.style.display = 'none'
+        } else {
+          pinErrorAuth.style.display = 'block'
+          pinInputAuth.value = ''
+          setTimeout(() => { pinErrorAuth.style.display = 'none' }, 2000)
+        }
+      }
+    })
+  }
+
+  $('#setupPinBtn')?.addEventListener('click', () => {
+    showModal('Configurar PIN', `
+      <div style="text-align: center;">
+        <p style="margin-bottom: 1rem; color: var(--text-secondary);">Crea un PIN de 4 dígitos para proteger tu app. Déjalo en blanco para desactivar.</p>
+        <input type="password" id="newPinInput" class="form-input" maxlength="4" pattern="\\d*" inputmode="numeric" placeholder="••••" style="text-align: center; font-size: 2rem; letter-spacing: 0.5rem; width: 140px; margin: 0 auto 1.5rem auto;">
+        <button id="savePinBtn" class="btn btn-primary" style="width: 100%;">Guardar PIN</button>
+      </div>
+    `)
+
+    $('#savePinBtn')?.addEventListener('click', () => {
+      const newPin = $('#newPinInput').value
+      if (newPin.length === 4) {
+        localStorage.setItem('appPin', newPin)
+        hideModal()
+        alert('PIN configurado exitosamente. Se te pedirá la próxima vez que abras la app.')
+      } else if (newPin.length === 0) {
+        localStorage.removeItem('appPin')
+        hideModal()
+        alert('PIN de seguridad desactivado.')
+      } else {
+        alert('El PIN debe tener exactamente 4 dígitos.')
+      }
+    })
+  })
 }
 
 function showWeightModal() {
@@ -1122,6 +1185,7 @@ async function init() {
 
   startHydrationReminders()
   navigateTo('dashboard')
+  initPinLock()
 }
 
 init()

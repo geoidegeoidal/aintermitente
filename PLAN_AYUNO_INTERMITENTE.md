@@ -39,9 +39,9 @@ A continuación se detalla cada fase del proyecto junto con el **modelo de Intel
 ### Fase 5: Pulido, Pruebas y Despliegue
 *🤖 Modelo Sugerido: **Gemini 3.1 Pro (High)*** *(Insuperable para auditoría estética final, CSS avanzado, animaciones fluidas y visión holística del proyecto).*
 - [x] Auditoría estética final (Animaciones *fade-in* añadidas, hover states pulidos en botones y tarjetas, validación del tema Zafiro completada).
-- [ ] Pruebas reales instalando la PWA en un dispositivo Android.
-- [ ] Subir el código definitivo al repositorio de GitHub.
-- [ ] Configurar y desplegar la aplicación a través de **GitHub Pages**.
+- [ ] Pruebas reales instalando la PWA en un dispositivo Android. *(¡Te toca a ti! Abre el link en tu celular)*
+- [x] Subir el código definitivo al repositorio de GitHub.
+- [x] Configurar y desplegar la aplicación a través de **GitHub Pages**.
 
 ---
 
