@@ -1,0 +1,277 @@
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+    <meta name="theme-color" content="#0a0e1a" />
+    <meta name="description" content="App de Ayuno Intermitente - Control de salud premium gratuito" />
+    <link rel="apple-touch-icon" href="/icon-192.png" />
+    <link rel="manifest" href="/manifest.webmanifest" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
+    <title>Ayuno Intermitente</title>
+  </head>
+  <body>
+    <div id="app">
+      <header class="app-header">
+        <div class="header-content">
+          <h1 class="app-title" id="headerTitle">
+            <span class="title-icon">&#9201;</span>
+            AyunoPro
+          </h1>
+          <button class="settings-btn" aria-label="Configuración">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <circle cx="12" cy="12" r="3"></circle>
+              <path d="M12 1v2M12 21v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M1 12h2M21 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42"></path>
+            </svg>
+          </button>
+        </div>
+      </header>
+
+      <div class="views-container" id="viewsContainer">
+        <!-- ===== DASHBOARD VIEW ===== -->
+        <div class="view active" id="view-dashboard">
+          <div class="view-content">
+            <section class="fasting-ring-container">
+              <div class="fasting-ring-wrapper">
+                <svg class="fasting-ring" viewBox="0 0 200 200">
+                  <circle class="ring-bg" cx="100" cy="100" r="90" fill="none" stroke="rgba(0, 212, 255, 0.1)" stroke-width="12" />
+                  <circle class="ring-progress" cx="100" cy="100" r="90" fill="none" stroke="url(#ringGradient)" stroke-width="12" stroke-linecap="round" stroke-dasharray="565.48" stroke-dashoffset="565.48" transform="rotate(-90 100 100)" />
+                  <defs>
+                    <linearGradient id="ringGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+                      <stop offset="0%" stop-color="#00d4ff" />
+                      <stop offset="100%" stop-color="#0088ff" />
+                    </linearGradient>
+                  </defs>
+                </svg>
+                <div class="ring-center">
+                  <span class="fasting-time" id="fastingTime">00:00:00</span>
+                  <span class="fasting-label">EN AYUNO</span>
+                </div>
+              </div>
+              <div class="metabolic-zones" id="metabolicZones">
+                <div class="zone" data-zone="0">
+                  <span class="zone-dot"></span>
+                  <span class="zone-label">Transici&#243;n</span>
+                  <span class="zone-time">0-4h</span>
+                </div>
+                <div class="zone" data-zone="1">
+                  <span class="zone-dot"></span>
+                  <span class="zone-label">Quema de grasa</span>
+                  <span class="zone-time">4-16h</span>
+                </div>
+                <div class="zone" data-zone="2">
+                  <span class="zone-dot"></span>
+                  <span class="zone-label">Autofagia</span>
+                  <span class="zone-time">16h+</span>
+                </div>
+              </div>
+            </section>
+
+            <section class="widgets-grid">
+              <div class="widget glass-card">
+                <div class="widget-header">
+                  <span class="widget-icon">&#128167;</span>
+                  <h3 class="widget-title">Agua</h3>
+                </div>
+                <div class="widget-content">
+                  <span class="widget-value" id="waterCount">0</span>
+                  <span class="widget-unit">/ 8 vasos</span>
+                  <button class="widget-btn" id="addWater" aria-label="Agregar vaso de agua">+</button>
+                </div>
+              </div>
+
+              <div class="widget glass-card">
+                <div class="widget-header">
+                  <span class="widget-icon">&#9878;</span>
+                  <h3 class="widget-title">Peso</h3>
+                </div>
+                <div class="widget-content">
+                  <span class="widget-value" id="currentWeight">--</span>
+                  <span class="widget-unit">kg</span>
+                  <button class="widget-btn" id="logWeight" aria-label="Registrar peso">+</button>
+                </div>
+              </div>
+
+              <div class="widget glass-card">
+                <div class="widget-header">
+                  <span class="widget-icon">&#9825;</span>
+                  <h3 class="widget-title">Presi&#243;n</h3>
+                </div>
+                <div class="widget-content">
+                  <span class="widget-value" id="currentBP">--/--</span>
+                  <span class="widget-unit">mmHg</span>
+                  <button class="widget-btn" id="logBP" aria-label="Registrar presión">+</button>
+                </div>
+              </div>
+
+              <div class="widget glass-card">
+                <div class="widget-header">
+                  <span class="widget-icon">&#128200;</span>
+                  <h3 class="widget-title">Protocolo</h3>
+                </div>
+                <div class="widget-content">
+                  <select class="protocol-select" id="protocolSelect">
+                    <option value="14:10">14:10</option>
+                    <option value="16:8" selected>16:8</option>
+                    <option value="18:6">18:6</option>
+                    <option value="20:4">20:4</option>
+                    <option value="OMAD">OMAD</option>
+                  </select>
+                </div>
+              </div>
+            </section>
+
+            <section class="controls">
+              <button class="btn btn-primary" id="startFasting">Iniciar Ayuno</button>
+              <button class="btn btn-pause" id="pauseFasting" disabled>Pausar</button>
+              <button class="btn btn-secondary" id="stopFasting" disabled>Detener</button>
+            </section>
+          </div>
+        </div>
+
+        <!-- ===== HISTORY VIEW ===== -->
+        <div class="view" id="view-history">
+          <div class="view-content">
+            <div class="tabs" id="historyTabs">
+              <button class="tab active" data-tab="fasting">Ayunos</button>
+              <button class="tab" data-tab="weight">Peso</button>
+              <button class="tab" data-tab="bp">Presión</button>
+            </div>
+
+            <div class="tab-content active" id="tab-fasting">
+              <div class="chart-container">
+                <canvas id="fastingChart"></canvas>
+              </div>
+              <div id="fastingStats" class="stats-row"></div>
+              <div id="fastingList" class="history-list"></div>
+            </div>
+
+            <div class="tab-content" id="tab-weight">
+              <div class="chart-container">
+                <canvas id="weightChart"></canvas>
+              </div>
+              <div class="weight-form-inline glass-card">
+                <input type="number" id="weightInputHistory" class="form-input" step="0.1" min="30" max="300" placeholder="Peso (kg) ej: 75.5">
+                <button class="btn btn-primary btn-sm" id="saveWeightHistory">Registrar</button>
+              </div>
+              <div id="weightList" class="history-list"></div>
+            </div>
+
+            <div class="tab-content" id="tab-bp">
+              <div class="chart-container">
+                <canvas id="bpChart"></canvas>
+              </div>
+              <div class="bp-form-inline glass-card">
+                <div class="bp-input-row">
+                  <input type="number" id="systolicInputHistory" class="form-input" min="70" max="250" placeholder="Sistólica">
+                  <span class="bp-separator">/</span>
+                  <input type="number" id="diastolicInputHistory" class="form-input" min="40" max="150" placeholder="Diastólica">
+                </div>
+                <div class="bp-input-row">
+                  <input type="number" id="hrInputHistory" class="form-input" min="30" max="220" placeholder="FC (opcional)">
+                  <button class="btn btn-primary btn-sm" id="saveBPHistory">Registrar</button>
+                </div>
+              </div>
+              <div id="bpList" class="history-list"></div>
+            </div>
+          </div>
+        </div>
+
+        <!-- ===== PROFILE VIEW ===== -->
+        <div class="view" id="view-profile">
+          <div class="view-content">
+            <div class="profile-stats" id="profileStats">
+              <div class="stat-card glass-card">
+                <span class="stat-value" id="statTotalFasts">0</span>
+                <span class="stat-label">Ayunos totales</span>
+              </div>
+              <div class="stat-card glass-card">
+                <span class="stat-value" id="statTotalHours">0h</span>
+                <span class="stat-label">Horas en ayuno</span>
+              </div>
+              <div class="stat-card glass-card">
+                <span class="stat-value" id="statLongest">0h</span>
+                <span class="stat-label">Ayuno más largo</span>
+              </div>
+              <div class="stat-card glass-card">
+                <span class="stat-value" id="statCurrentStreak">0</span>
+                <span class="stat-label">Racha de días</span>
+              </div>
+            </div>
+
+            <div class="profile-settings glass-card">
+              <h3 class="settings-title">Notificaciones</h3>
+              <div class="setting-row">
+                <span class="setting-label">Recordatorio de hidratación</span>
+                <label class="toggle">
+                  <input type="checkbox" id="toggleHydrationNotify">
+                  <span class="toggle-slider"></span>
+                </label>
+              </div>
+              <div class="setting-row">
+                <span class="setting-label">Aviso de fin de ayuno</span>
+                <label class="toggle">
+                  <input type="checkbox" id="toggleFastingEndNotify" checked>
+                  <span class="toggle-slider"></span>
+                </label>
+              </div>
+              <div class="setting-row">
+                <span class="setting-label">Protocolo predeterminado</span>
+                <select class="protocol-select" id="defaultProtocol">
+                  <option value="14:10">14:10</option>
+                  <option value="16:8" selected>16:8</option>
+                  <option value="18:6">18:6</option>
+                  <option value="20:4">20:4</option>
+                  <option value="OMAD">OMAD</option>
+                </select>
+              </div>
+            </div>
+
+            <p class="version-text">AyunoPro v0.1.0</p>
+          </div>
+        </div>
+      </div>
+
+      <nav class="bottom-nav" id="bottomNav">
+        <a href="#dashboard" class="nav-item active" data-view="dashboard">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <rect x="3" y="3" width="7" height="7" rx="1"></rect>
+            <rect x="14" y="3" width="7" height="7" rx="1"></rect>
+            <rect x="3" y="14" width="7" height="7" rx="1"></rect>
+            <rect x="14" y="14" width="7" height="7" rx="1"></rect>
+          </svg>
+          <span>Dashboard</span>
+        </a>
+        <a href="#history" class="nav-item" data-view="history">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M3 3v18h18"></path>
+            <path d="M7 16l4-8 4 4 4-6"></path>
+          </svg>
+          <span>Historial</span>
+        </a>
+        <a href="#profile" class="nav-item" data-view="profile">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
+            <circle cx="12" cy="7" r="4"></circle>
+          </svg>
+          <span>Perfil</span>
+        </a>
+      </nav>
+    </div>
+
+    <div class="modal" id="modal">
+      <div class="modal-content glass-card">
+        <div class="modal-header">
+          <h2 class="modal-title" id="modalTitle">Registro</h2>
+          <button class="modal-close" id="modalClose">&times;</button>
+        </div>
+        <div class="modal-body" id="modalBody"></div>
+      </div>
+    </div>
+
+    <script type="module" src="/src/main.js"></script>
+  </body>
+</html>
